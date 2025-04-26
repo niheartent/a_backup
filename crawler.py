@@ -41,7 +41,7 @@ def get_start_page(chuan: Chuan):
         print(f"需要创建新文件, 从{chuan.page }行开始")
 
 
-def save_data(session, chuan: Chuan):
+def save_data(session, chuan: Chuan, time_interval_min=1, time_interval_max=5):
     get_start_page(chuan)
     with open(f"{chuan.id}:{chuan.name}.jsonl", "a", encoding="utf-8") as f:
         while True:
@@ -57,7 +57,7 @@ def save_data(session, chuan: Chuan):
             f.write(json.dumps(data, ensure_ascii=False) + "\n")
             print(f"第 {chuan.page} 页数据已写入文件")
             chuan.page += 1
-            sleep(random.uniform(1, 3))
+            sleep(random.uniform(time_interval_min, time_interval_max))
     print(f"所有数据已保存到 {id}.jsonl")
 
 
@@ -66,10 +66,12 @@ if __name__ == "__main__":
         config = json.load(f)
         cookies = config["cookies"]
         all_list = config["all_list"]
+        time_interval_min = config["time_interval_min"]
+        time_interval_max = config["time_interval_max"]
         session = requests.Session()
         session.cookies.update(cookies)
         for id, name in all_list.items():
             chuan = Chuan(id, name)
             print(f"正在爬取 {name} 的数据")
             test_connect(session, chuan)
-            save_data(session, chuan)
+            save_data(session, chuan, time_interval_min, time_interval_max)
