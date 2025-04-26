@@ -2,18 +2,21 @@ import random
 from time import sleep
 import requests
 import json
+import os
 
 
 class Chuan:
     is_po: str
     page: int
     name: str
+    path: str
 
-    def __init__(self, id, name, page=1, is_po="false"):
+    def __init__(self, id, name, path, page=1, is_po="false"):
         self.id = id
         self.name = name
         self.page = page
         self.is_po = is_po
+        self.path = path
 
     def get_url(self):
         return f"https://aweidao1.com/api/v1/thread?id={self.id}&page={self.page}&po={self.is_po}&newest=false"
@@ -33,7 +36,9 @@ def test_connect(session, chuan: Chuan):
 
 def get_start_page(chuan: Chuan):
     try:
-        with open(f"{chuan.id}:{chuan.name}.jsonl", "r", encoding="utf-8") as f:
+        with open(
+            f"{chuan.path}/{chuan.id}:{chuan.name}.jsonl", "r", encoding="utf-8"
+        ) as f:
             chuan.page = sum(1 for _ in f) + 1
             print(f"读入旧文件, 从{chuan.page }行开始")
     except FileNotFoundError:
@@ -43,7 +48,9 @@ def get_start_page(chuan: Chuan):
 
 def save_data(session, chuan: Chuan, time_interval_min=1, time_interval_max=5):
     get_start_page(chuan)
-    with open(f"{chuan.id}:{chuan.name}.jsonl", "a", encoding="utf-8") as f:
+    with open(
+        f"{chuan.path}/{chuan.id}:{chuan.name}.jsonl", "a", encoding="utf-8"
+    ) as f:
         while True:
             response = session.get(chuan.get_url())
             data = response.json()
@@ -70,8 +77,14 @@ if __name__ == "__main__":
         time_interval_max = config["time_interval_max"]
         session = requests.Session()
         session.cookies.update(cookies)
+
+        path = os.path.dirname(os.path.abspath(__file__))
+        backup_path = f"{path}/backup_data"
+        if not os.path.exists(backup_path):
+            os.makedirs(backup_path)
+
         for id, name in all_list.items():
-            chuan = Chuan(id, name)
+            chuan = Chuan(id, name, backup_path)
             print(f"正在爬取 {name} 的数据")
             test_connect(session, chuan)
             save_data(session, chuan, time_interval_min, time_interval_max)
