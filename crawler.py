@@ -37,7 +37,7 @@ def test_connect(session, chuan: Chuan):
 def get_start_page(chuan: Chuan):
     try:
         with open(
-            f"{chuan.path}/{chuan.id}:{chuan.name}.jsonl", "r", encoding="utf-8"
+            f"{chuan.path}/{chuan.id}{chuan.name}.jsonl", "r", encoding="utf-8"
         ) as f:
             chuan.page = sum(1 for _ in f) + 1
             print(f"读入旧文件, 从{chuan.page }行开始")
@@ -48,9 +48,7 @@ def get_start_page(chuan: Chuan):
 
 def save_data(session, chuan: Chuan, time_interval_min=1, time_interval_max=5):
     get_start_page(chuan)
-    with open(
-        f"{chuan.path}/{chuan.id}:{chuan.name}.jsonl", "a", encoding="utf-8"
-    ) as f:
+    with open(f"{chuan.path}/{chuan.id}{chuan.name}.jsonl", "a", encoding="utf-8") as f:
         while True:
             response = session.get(chuan.get_url())
             data = response.json()
@@ -65,7 +63,7 @@ def save_data(session, chuan: Chuan, time_interval_min=1, time_interval_max=5):
             print(f"第 {chuan.page} 页数据已写入文件")
             chuan.page += 1
             sleep(random.uniform(time_interval_min, time_interval_max))
-    print(f"所有数据已保存到 {chuan.id}:{chuan.name}.jsonl")
+    print(f"所有数据已保存到 {chuan.id}{chuan.name}.jsonl")
 
 
 if __name__ == "__main__":
