@@ -48,6 +48,8 @@ def get_start_page(chuan: Chuan):
 
 def progress_bar(current, total, description="", bar_length=50):
     fraction = current / total
+    if fraction >= 1:
+        fraction = 1
     arrow = int(fraction * bar_length - 1) * "=" + ">"
     padding = (bar_length - len(arrow)) * " "
     print(f"\r{description} [{arrow}{padding}] {int(fraction*100)}%", end="")
