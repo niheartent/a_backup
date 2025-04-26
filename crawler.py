@@ -43,11 +43,23 @@ def get_start_page(chuan: Chuan):
             print(f"读入旧文件, 从{chuan.page }行开始")
     except FileNotFoundError:
         chuan.page = 1
-        print(f"需要创建新文件, 从{chuan.page }行开始")
+        print(f"创建新文件, 从{chuan.page }行开始")
+
+
+def progress_bar(current, total, description="", bar_length=50):
+    fraction = current / total
+    arrow = int(fraction * bar_length - 1) * "=" + ">"
+    padding = (bar_length - len(arrow)) * " "
+    print(f"\r{description} [{arrow}{padding}] {int(fraction*100)}%", end="")
 
 
 def save_data(session, chuan: Chuan, time_interval_min=1, time_interval_max=5):
+    print(f"***************开始爬取 {chuan.name} 的数据***************")
     get_start_page(chuan)
+    response = session.get(chuan.get_url())
+    page_count = (
+        response.json()["result"]["replyCount"] // response.json()["result"]["pageSize"]
+    )
     with open(f"{chuan.path}/{chuan.id}{chuan.name}.jsonl", "a", encoding="utf-8") as f:
         while True:
             response = session.get(chuan.get_url())
@@ -57,16 +69,17 @@ def save_data(session, chuan: Chuan, time_interval_min=1, time_interval_max=5):
                 print(f"请求失败: errcode = {errcode}")
                 break
             if not data["result"]["replys"]:
-                print(f"已爬取完所有数据, 共爬取{chuan.page}页")
+                print(f"爬取完数据, 共爬取{chuan.page}页")
                 break
             f.write(json.dumps(data, ensure_ascii=False) + "\n")
-            print(f"第 {chuan.page} 页数据已写入文件")
+            progress_bar(chuan.page, page_count, description="Processing")
             chuan.page += 1
             sleep(random.uniform(time_interval_min, time_interval_max))
-    print(f"所有数据已保存到 {chuan.id}{chuan.name}.jsonl")
+    print(f"保存到 {chuan.id}{chuan.name}.jsonl")
 
 
 if __name__ == "__main__":
+
     with open("./config.json", "r", encoding="utf-8") as f:
         config = json.load(f)
         cookies = config["cookies"]
