@@ -65,7 +65,7 @@ def save_data(session, chuan: Chuan, time_interval_min=1, time_interval_max=5):
             print(f"第 {chuan.page} 页数据已写入文件")
             chuan.page += 1
             sleep(random.uniform(time_interval_min, time_interval_max))
-    print(f"所有数据已保存到 {id}.jsonl")
+    print(f"所有数据已保存到 {chuan.id}:{chuan.name}.jsonl")
 
 
 if __name__ == "__main__":
