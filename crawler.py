@@ -82,17 +82,19 @@ def save_data(session, chuan: Chuan, time_interval_min=1, time_interval_max=5):
 
 if __name__ == "__main__":
 
-    with open("./config.json", "r", encoding="utf-8") as f:
+    with open("./chuan.json", "r", encoding="utf-8") as f:
         config = json.load(f)
         cookies = config["cookies"]
         all_list = config["all_list"]
         time_interval_min = config["time_interval_min"]
         time_interval_max = config["time_interval_max"]
+        output_path = config["output_path"]
+
         session = requests.Session()
         session.cookies.update(cookies)
 
         path = os.path.dirname(os.path.abspath(__file__))
-        backup_path = f"{path}/backup_data"
+        backup_path = f"{path}/{output_path}"
         if not os.path.exists(backup_path):
             os.makedirs(backup_path)
 
