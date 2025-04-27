@@ -82,7 +82,7 @@ def save_data(session, chuan: Chuan, time_interval_min=1, time_interval_max=5):
 
 if __name__ == "__main__":
 
-    with open("./chuan.json", "r", encoding="utf-8") as f:
+    with open("./config/backup_json.json", "r", encoding="utf-8") as f:
         config = json.load(f)
         cookies = config["cookies"]
         all_list = config["all_list"]

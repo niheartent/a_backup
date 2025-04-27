@@ -1,0 +1,25 @@
+{
+    "json_list": {
+        "女剑圣":"backup_data/14608000女剑圣.jsonl",
+        "鹘山侦探":"backup_data/14742589鹘山侦探.jsonl",
+        "德洛莉丝":"backup_data/16637837德洛莉丝.jsonl",
+        "殁狼":"backup_data/17586650殁狼.jsonl",
+        "暗云众":"backup_data/17655344暗云众.jsonl",
+        "种田团,千年战争,咕咕":"backup_data/17987154种田团,千年战争,咕咕.jsonl",
+        "海盗菲奥":"backup_data/19284572海盗菲奥.jsonl",
+        "七级强智能,海希,咕咕":"backup_data/19661080七级强智能,海希,咕咕.jsonl",
+        "诺斯卡人":"backup_data/20396688诺斯卡人.jsonl",
+        "蛮子":"backup_data/20943899蛮子.jsonl",
+        "抹布,伊希尔":"backup_data/22843625抹布,伊希尔.jsonl",
+        "纪伦":"backup_data/23345492纪伦.jsonl",
+        "无名,光速结团":"backup_data/24569805无名,光速结团.jsonl",
+        "弓具人":"backup_data/29089530弓具人.jsonl",
+        "纪念卡尔,咕咕":"backup_data/29858733纪念卡尔,咕咕.jsonl",
+        "大董事":"backup_data/33065722大董事.jsonl",
+        "纪伦神选":"backup_data/34549509纪伦神选.jsonl",
+        "赛博jk":"backup_data/38328834赛博jk.jsonl",
+        "武侠团,腰斩":"backup_data/40427151武侠团,腰斩.jsonl",
+        "猫国":"backup_data/42239863猫国.jsonl"
+    },
+    "output_path": "backup_txt"
+}
