@@ -47,17 +47,15 @@ def get_reply(input_path):
 
 def html_to_txt(html_content):
     # 替换HTML标签为适合TXT的格式
-    txt_content = (
-        html_content.replace("\n", "\n\t").replace("<br />", "").replace("&gt;", ">")
-    )
+    txt_content = html_content.replace("<br />", "").replace("&gt;", ">")
 
-    return "\t" + txt_content.strip()
+    return txt_content.strip()
 
 
 def get_reply_string(reply):
     txt_content = f"No.{reply.id} {reply.time} {reply.user_id}\n"
     txt_content += html_to_txt(reply.content)
-    txt_content += "\n"
+    txt_content += "\n\n\n"
     return txt_content
 
 
